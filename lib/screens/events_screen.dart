@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'webview_screen.dart';
 
 class EventsScreen extends StatelessWidget {
+  const EventsScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Events'),
+        title: const Text('Events'),
       ),
       body: Column(
         children: [
@@ -20,24 +22,24 @@ class EventsScreen extends StatelessWidget {
                 Column(
                   children: [
                     IconButton(
-                      icon: Icon(Icons.event, size: 30),
+                      icon: const Icon(Icons.event, size: 30),
                       onPressed: () {
                         Navigator.pushNamed(context, '/microsoftEvents');
                       },
                       tooltip: 'Microsoft Events',
                     ),
-                    Text('Events'),
+                    const Text('Events'),
                   ],
                 ),
                 Column(
                   children: [
                     IconButton(
-                      icon: Icon(Icons.schedule, size: 30),
+                      icon: const Icon(Icons.schedule, size: 30),
                       onPressed: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => WebViewScreen(
+                            builder: (context) => const WebViewScreen(
                               url:
                                   'https://uofcanada.edu.eg/', // Replace with actual SIS URL
                             ),
@@ -46,19 +48,19 @@ class EventsScreen extends StatelessWidget {
                       },
                       tooltip: 'SIS Schedule',
                     ),
-                    Text('Schedule'),
+                    const Text('Schedule'),
                   ],
                 ),
                 Column(
                   children: [
                     IconButton(
-                      icon: Icon(Icons.health_and_safety,
+                      icon: const Icon(Icons.health_and_safety,
                           size: 30), // Wellness icon
                       onPressed: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => WebViewScreen(
+                            builder: (context) => const WebViewScreen(
                               url:
                                   'https://outlook.office365.com/owa/calendar/WellnessBookings@microsoft.com/bookings/', // Replace with actual Microsoft Booking URL
                             ),
@@ -67,13 +69,13 @@ class EventsScreen extends StatelessWidget {
                       },
                       tooltip: 'Wellness Booking',
                     ),
-                    Text('Wellness'),
+                    const Text('Wellness'),
                   ],
                 ),
               ],
             ),
           ),
-          Expanded(
+          const Expanded(
             child: Center(
               child: Text('Events content here'),
             ),

@@ -31,7 +31,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 32),
                   const Text(
-                    'UPEI Login',
+                    'UOC Login',
                     style: TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.bold,

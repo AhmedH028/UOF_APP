@@ -11,7 +11,7 @@ class UPEIApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'UPEI Mobile App',
+      title: 'UOC Mobile App',
       theme: ThemeData(
         primaryColor: const Color.fromARGB(255, 151, 22, 37),
         hintColor: const Color.fromARGB(255, 97, 206, 112),

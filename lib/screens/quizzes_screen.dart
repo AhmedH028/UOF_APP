@@ -1,14 +1,17 @@
+// Import necessary packages and WebViewScreen #AbdallaFayez
 import 'package:flutter/material.dart';
+import 'webview_screen.dart';
 
 class QuizzesScreen extends StatelessWidget {
-  const QuizzesScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Quizzes')),
-      body:
-          const Center(child: Text('Your upcoming quizzes will appear here.')),
+      appBar: AppBar(
+        title: Text('SIS Grades'),
+      ),
+      body: WebViewScreen(
+        url: 'https://sis.youruniversity.edu/quizzes', // Replace with actual SIS quizzes URL
+      ),
     );
   }
 }
