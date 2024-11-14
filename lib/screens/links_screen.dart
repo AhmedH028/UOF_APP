@@ -14,7 +14,7 @@ class _LinksScreenState extends State<LinksScreen> {
   String selectedSection = 'none';
 
   final List<Map<String, String>> academicLinks = [
-    {'title': 'University Portal', 'url': 'https://portal.youruniversity.edu'},
+    {'title': 'University Portal', 'url': 'https://upeisis.uofcanada.edu.eg/PowerCampusSelfService/Home/LogIn'},
     {'title': 'Library Resources', 'url': 'https://library.youruniversity.edu'},
     {'title': 'Quizzes', 'url': 'https://upeisis.uofcanada.edu.eg/PowerCampusSelfService/Home/LogIn'},
     {'title': 'Helpdesk Email', 'action': 'email', 'email': 'helpdesk@uofcanada.edu.eg'},
