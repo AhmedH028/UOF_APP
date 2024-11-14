@@ -34,6 +34,7 @@ class _LinksScreenState extends State<LinksScreen> {
         {'title': 'Boxing', 'url': 'https://gymclasseslink.edu/boxing'},
       ]
     },
+    {'title': 'Clinc', 'url': 'https://www.google.com/'},
     {'title': 'Bus Routes and Schedule', 'url': 'https://bus-schedule-link.edu/Bus-Routes-Pickup-Points.pdf'},
     {'title': 'Fleet Manager', 'action': 'call', 'phone': '01008470311'},
     {'title': 'Location & Map', 'action': 'map', 'url': 'https://g.page/UofCanada/'},
@@ -60,12 +61,20 @@ class _LinksScreenState extends State<LinksScreen> {
 
   Future<void> _launchDialer(String phoneNumber) async {
     final Uri telUri = Uri(scheme: 'tel', path: phoneNumber);
+
+    // Logging the URI to confirm formatting
+    print("Dialer URI: ${telUri.toString()}");
+
     if (await canLaunchUrl(telUri)) {
       await launchUrl(telUri);
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Could not open dialer')));
+      print("Could not open dialer for URI: ${telUri.toString()}");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Could not open dialer')),
+      );
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
