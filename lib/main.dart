@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 import 'screens/login_screen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Enable hybrid composition for Android WebView
+  WebView.platform = SurfaceAndroidWebView();
+
   runApp(const UPEIApp());
 }
 

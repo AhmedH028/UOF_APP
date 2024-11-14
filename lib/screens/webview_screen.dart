@@ -12,15 +12,29 @@ class WebViewScreen extends StatefulWidget {
 }
 
 class _WebViewScreenState extends State<WebViewScreen> {
-  late final WebViewController controller;
+  late WebViewController controller;
 
   @override
   void initState() {
     super.initState();
+
+    // Initialize the WebViewController with settings
     controller = WebViewController()
-      ..loadRequest(
-        Uri.parse(widget.url), // Load the URL passed into the widget
-      );
+      ..setJavaScriptMode(JavaScriptMode.unrestricted) // Enable JavaScript
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onPageStarted: (url) {
+            print("Page loading: $url");
+          },
+          onPageFinished: (url) {
+            print("Page finished loading: $url");
+          },
+          onWebResourceError: (error) {
+            print("Error loading page: ${error.description}");
+          },
+        ),
+      )
+      ..loadRequest(Uri.parse(widget.url));
   }
 
   @override
@@ -32,14 +46,12 @@ class _WebViewScreenState extends State<WebViewScreen> {
           IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: () {
-              controller.reload(); // Reload the WebView
+              controller.reload();
             },
           ),
         ],
       ),
-      body: WebViewWidget(
-        controller: controller,
-      ),
+      body: WebViewWidget(controller: controller),
     );
   }
 }
