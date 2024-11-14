@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 class WebViewScreen extends StatefulWidget {
   final String url;
@@ -11,32 +11,7 @@ class WebViewScreen extends StatefulWidget {
 }
 
 class _WebViewScreenState extends State<WebViewScreen> {
-  late WebViewController controller;
-
-  @override
-  void initState() {
-    super.initState();
-
-    controller = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setNavigationDelegate(
-        NavigationDelegate(
-          onPageStarted: (url) {
-            print("Page loading: $url");
-          },
-          onPageFinished: (url) {
-            print("Page finished loading: $url");
-          },
-          onWebResourceError: (error) {
-            print("Error loading page: ${error.description}");
-          },
-        ),
-      )
-      ..clearCache() // Clears the WebView cache
-      ..loadRequest(
-        Uri.parse(widget.url),
-      );
-  }
+  late InAppWebViewController webViewController;
 
   @override
   Widget build(BuildContext context) {
@@ -47,12 +22,28 @@ class _WebViewScreenState extends State<WebViewScreen> {
           IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: () {
-              controller.reload();
+              webViewController.reload();
             },
           ),
         ],
       ),
-      body: WebViewWidget(controller: controller),
+      body: InAppWebView(
+        initialUrlRequest: URLRequest(url: Uri.parse(widget.url)),
+        initialOptions: InAppWebViewGroupOptions(
+          crossPlatform: InAppWebViewOptions(
+            javaScriptEnabled: true,
+            cacheEnabled: false, // Disable cache to prevent caching issues
+            clearCache: true,
+          ),
+        ),
+        onWebViewCreated: (controller) {
+          webViewController = controller;
+        },
+        onLoadError: (controller, url, code, message) {
+          print("Error loading page: $message");
+          // Display an error message or take additional actions
+        },
+      ),
     );
   }
 }
