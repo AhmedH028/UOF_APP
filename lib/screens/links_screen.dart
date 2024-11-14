@@ -35,7 +35,7 @@ class _LinksScreenState extends State<LinksScreen> {
       ]
     },
     {'title': 'Bus Routes and Schedule', 'url': 'https://bus-schedule-link.edu/Bus-Routes-Pickup-Points.pdf'},
-    {'title': 'Fleet Manager', 'action': 'copy', 'text': '01008470311'},
+    {'title': 'Fleet Manager', 'action': 'call', 'phone': '01008470311'},
     {'title': 'Location & Map', 'action': 'map', 'url': 'https://g.page/UofCanada/'},
   ];
 
@@ -58,9 +58,13 @@ class _LinksScreenState extends State<LinksScreen> {
     );
   }
 
-  void _copyToClipboard(String text) {
-    Clipboard.setData(ClipboardData(text: text));
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Copied to clipboard')));
+  Future<void> _launchDialer(String phoneNumber) async {
+    final Uri telUri = Uri(scheme: 'tel', path: phoneNumber);
+    if (await canLaunchUrl(telUri)) {
+      await launchUrl(telUri);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Could not open dialer')));
+    }
   }
 
   @override
@@ -159,11 +163,11 @@ class _LinksScreenState extends State<LinksScreen> {
                             );
                           }).toList(),
                         );
-                      } else if (link['action'] == 'copy') {
+                      } else if (link['action'] == 'call') {
                         return ListTile(
                           title: Text(link['title']!),
-                          trailing: Icon(Icons.copy),
-                          onTap: () => _copyToClipboard(link['text']!),
+                          trailing: Icon(Icons.phone),
+                          onTap: () => _launchDialer(link['phone']!),
                         );
                       } else if (link['action'] == 'map') {
                         return ListTile(
