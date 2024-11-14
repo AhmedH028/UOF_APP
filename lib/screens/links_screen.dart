@@ -119,7 +119,7 @@ class _LinksScreenState extends State<LinksScreen> {
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 21),
             Expanded(
               child: ListView(
                 children: [
