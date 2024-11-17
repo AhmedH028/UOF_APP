@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewScreen extends StatefulWidget {
   final String url;
@@ -11,7 +11,18 @@ class WebViewScreen extends StatefulWidget {
 }
 
 class _WebViewScreenState extends State<WebViewScreen> {
-  late InAppWebViewController webViewController;
+  late final WebViewController _controller;
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Initialize WebViewController
+    _controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted) // Enable JavaScript
+      ..loadRequest(Uri.parse(widget.url)); // Load the initial URL
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,29 +31,37 @@ class _WebViewScreenState extends State<WebViewScreen> {
         title: const Text('WebView Page'),
         actions: [
           IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () async {
+              if (await _controller.canGoBack()) {
+                _controller.goBack();
+              }
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.arrow_forward),
+            onPressed: () async {
+              if (await _controller.canGoForward()) {
+                _controller.goForward();
+              }
+            },
+          ),
+          IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: () {
-              webViewController.reload();
+              _controller.reload();
             },
           ),
         ],
       ),
-      body: InAppWebView(
-        initialUrlRequest: URLRequest(url: Uri.parse(widget.url)),
-        initialOptions: InAppWebViewGroupOptions(
-          crossPlatform: InAppWebViewOptions(
-            javaScriptEnabled: true,
-            cacheEnabled: false, // Disable cache to prevent caching issues
-            clearCache: true,
-          ),
-        ),
-        onWebViewCreated: (controller) {
-          webViewController = controller;
-        },
-        onLoadError: (controller, url, code, message) {
-          print("Error loading page: $message");
-          // Display an error message or take additional actions
-        },
+      body: Stack(
+        children: [
+          WebViewWidget(controller: _controller),
+          if (_isLoading)
+            const Center(
+              child: CircularProgressIndicator(),
+            ),
+        ],
       ),
     );
   }

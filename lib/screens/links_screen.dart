@@ -1,7 +1,5 @@
-// links_screen.dart
-import 'package:first_app/screens/webview_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'webview_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/services.dart';
 
@@ -34,7 +32,6 @@ class _LinksScreenState extends State<LinksScreen> {
         {'title': 'Boxing', 'url': 'https://gymclasseslink.edu/boxing'},
       ]
     },
-    {'title': 'Clinc', 'url': 'https://www.google.com/'},
     {'title': 'Bus Routes and Schedule', 'url': 'https://bus-schedule-link.edu/Bus-Routes-Pickup-Points.pdf'},
     {'title': 'Fleet Manager', 'action': 'call', 'phone': '01008470311'},
     {'title': 'Location & Map', 'action': 'map', 'url': 'https://g.page/UofCanada/'},
@@ -48,33 +45,27 @@ class _LinksScreenState extends State<LinksScreen> {
     await launchUrl(emailLaunchUri);
   }
 
-  Future<void> _launchMap(String url) async {
-    await launchUrl(Uri.parse(url));
-  }
-
-  Future<void> _launchLink(String url) async {
-    await Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => WebViewScreen(url: url)),
-    );
-  }
-
   Future<void> _launchDialer(String phoneNumber) async {
     final Uri telUri = Uri(scheme: 'tel', path: phoneNumber);
-
-    // Logging the URI to confirm formatting
-    print("Dialer URI: ${telUri.toString()}");
-
     if (await canLaunchUrl(telUri)) {
       await launchUrl(telUri);
     } else {
-      print("Could not open dialer for URI: ${telUri.toString()}");
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Could not open dialer')),
       );
     }
   }
 
+  Future<void> _launchMap(String url) async {
+    await launchUrl(Uri.parse(url));
+  }
+
+  void _openWebView(String url) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => WebViewScreen(url: url)),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -145,7 +136,7 @@ class _LinksScreenState extends State<LinksScreen> {
                         return ListTile(
                           title: Text(link['title']!),
                           trailing: Icon(Icons.arrow_forward),
-                          onTap: () => _launchLink(link['url']!),
+                          onTap: () => _openWebView(link['url']!),
                         );
                       }
                     }).toList(),
@@ -168,7 +159,7 @@ class _LinksScreenState extends State<LinksScreen> {
                             return ListTile(
                               title: Text(subLink['title']),
                               trailing: Icon(Icons.arrow_forward),
-                              onTap: () => _launchLink(subLink['url']),
+                              onTap: () => _openWebView(subLink['url']),
                             );
                           }).toList(),
                         );
@@ -188,7 +179,7 @@ class _LinksScreenState extends State<LinksScreen> {
                         return ListTile(
                           title: Text(link['title']!),
                           trailing: Icon(Icons.arrow_forward),
-                          onTap: () => _launchLink(link['url']!),
+                          onTap: () => _openWebView(link['url']!),
                         );
                       }
                     }).toList(),

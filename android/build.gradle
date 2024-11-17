@@ -5,6 +5,11 @@ allprojects {
     }
 }
 
+tasks.withType(JavaCompile).configureEach {
+    options.forkOptions.javaHome = System.getProperty('java.home') // Ensures the Java version is correctly used
+}
+
+
 rootProject.buildDir = "../build"
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
@@ -12,6 +17,11 @@ subprojects {
 subprojects {
     project.evaluationDependsOn(":app")
 }
+
+dependencies {
+    classpath 'com.android.tools.build:gradle:7.0.4'
+}
+
 
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
